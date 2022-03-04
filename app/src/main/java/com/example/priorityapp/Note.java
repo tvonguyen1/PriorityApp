@@ -1,12 +1,12 @@
 package com.example.priorityapp;
 
-public class note {
+public class Note {
     private int noteID;
     private String noteName;
     private String noteDetail;
     private String priority;
 
-    public note() {
+    public Note() {
         noteID = -1;
     }
 
@@ -21,5 +21,9 @@ public class note {
     public String getNoteDetail() {return noteDetail;}
 
     public void setNoteDetail(String detail) {noteDetail = detail;}
+
+    public String getNotePriority() {return priority;}
+
+    public void setNotePriority(String priority) {priority = priority;}
 
 }
