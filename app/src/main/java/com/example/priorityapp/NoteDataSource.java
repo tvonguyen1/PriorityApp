@@ -2,11 +2,16 @@ package com.example.priorityapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class NoteDataSource {
     private SQLiteDatabase database;
@@ -66,5 +71,60 @@ public class NoteDataSource {
             //Do nothing -return value already set to false
         }
         return didDelete;
+    }
+    public ArrayList<Note> getNote(String sortField, String sortOrder) {
+        ArrayList<Note> notes = new ArrayList<Note>();
+        try {
+            String query = "SELECT  * FROM contact ORDER BY " + sortField + " " + sortOrder;
+            Cursor cursor = database.rawQuery(query, null);
+
+            Note newNote;
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                newNote = new Note();
+                newNote.setNoteID(cursor.getInt(0));
+                newNote.setNoteName(cursor.getString(1));
+                newNote.setNoteDetail(cursor.getString(2));
+                newNote.setNotePriority(cursor.getString(3));
+
+                notes.add(newNote);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        catch (Exception e) {
+            notes = new ArrayList<Note>();
+        }
+        return notes;
+    }
+
+    public Note getSpecificNote(int noteId) {
+        Note note = new Note();
+        String query = "SELECT  * FROM contact WHERE _id =" + noteId;
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            note.setNoteID(cursor.getInt(0));
+            note.setNoteName(cursor.getString(1));
+            note.setNoteDetail(cursor.getString(2));
+            note.setNotePriority(cursor.getString(3));
+            cursor.close();
+        }
+        return note;
+    }
+    public int getLastNoteId() {
+        int lastId;
+        try {
+            String query = "Select MAX(_id) from note";
+            Cursor cursor = database.rawQuery(query, null);
+
+            cursor.moveToFirst();
+            lastId = cursor.getInt(0);
+            cursor.close();
+        }
+        catch (Exception e) {
+            lastId = -1;
+        }
+        return lastId;
     }
 }
