@@ -70,7 +70,7 @@ public class NoteAdapter extends RecyclerView.Adapter{
         nvh.getTextDate().setText(noteData.get(position).getDateString());
         if(noteData.get(position).getPriority()==2) {
             nvh.getTextPriority().setText("High");
-            nvh.getTextPriority().setTextColor(Color.RED);
+            nvh.getTextSubjectName().setTextColor(Color.RED);
         } else if(noteData.get(position).getPriority()==1) {
             nvh.getTextPriority().setText("Medium");
         } else

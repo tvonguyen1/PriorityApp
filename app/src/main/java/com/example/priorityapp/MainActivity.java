@@ -213,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(editSubject.getWindowToken(), 0);
         EditText editNote = findViewById(R.id.editNote);
         imm.hideSoftInputFromWindow(editNote.getWindowToken(), 0);
-
+        RadioGroup radioGroup = findViewById(R.id.radioGroupPriority);
+        imm.hideSoftInputFromWindow(radioGroup.getWindowToken(), 0);
     }
 
     private void initNote(int id) {
