@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class NoteAdapter extends RecyclerView.Adapter{
         public TextView textSubjectName;
         public TextView textDate;
         public TextView textPriority;
+        public ConstraintLayout colorLayout;
         public Button deleteButton;
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -33,6 +35,7 @@ public class NoteAdapter extends RecyclerView.Adapter{
             textDate = itemView.findViewById(R.id.textViewDate);
             textPriority = itemView.findViewById(R.id.textViewPriority);
             deleteButton = itemView.findViewById(R.id.buttonDelete);
+            colorLayout = itemView.findViewById(R.id.colorLayout);
             itemView.setTag(this);
             itemView.setOnClickListener(mOnItemClickListener);
         }
@@ -42,6 +45,7 @@ public class NoteAdapter extends RecyclerView.Adapter{
         }
         public TextView getTextDate() { return textDate;}
         public TextView getTextPriority() { return textPriority; }
+        public ConstraintLayout getLayout() {return colorLayout;}
         public Button getDeleteButton() {
             return deleteButton;
         }
@@ -68,13 +72,20 @@ public class NoteAdapter extends RecyclerView.Adapter{
         NoteViewHolder nvh = (NoteViewHolder) holder;
         nvh.getTextSubjectName().setText(noteData.get(position).getNoteName());
         nvh.getTextDate().setText(noteData.get(position).getDateString());
-        if(noteData.get(position).getPriority()==2) {
+        if (noteData.get(position).getPriority() == 2) {
             nvh.getTextPriority().setText("High");
-            nvh.getTextSubjectName().setTextColor(Color.RED);
-        } else if(noteData.get(position).getPriority()==1) {
+            //nvh.getTextSubjectName().setTextColor(Color.RED);
+            nvh.getLayout().setBackgroundColor(Color.RED);
+        } else if (noteData.get(position).getPriority() == 1) {
             nvh.getTextPriority().setText("Medium");
-        } else
+            //nvh.getTextSubjectName().setTextColor(Color.YELLOW);
+            nvh.getLayout().setBackgroundColor(Color.YELLOW);
+        } else {
             nvh.getTextPriority().setText("Low");
+            //nvh.getTextSubjectName().setTextColor(Color.GREEN);
+            nvh.getLayout().setBackgroundColor(Color.GREEN);
+        }
+
         //If the adapter is in delete mode, the delete button for each contact is set to be visible
         if (isDeleting) {
             nvh.getDeleteButton().setVisibility(View.VISIBLE);
